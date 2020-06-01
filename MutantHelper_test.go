@@ -43,7 +43,6 @@ func TestRouter(t *testing.T) {
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
 			req, _ := http.NewRequest(tc.method, tc.url, strings.NewReader(tc.body))
-
 			r := httptest.NewRecorder()
 			router.ServeHTTP(r, req)
 			assert.Equal(t, "true", w.Body.String())

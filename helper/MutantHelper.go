@@ -3,9 +3,7 @@ import (
 	"fmt"
 	"mutants/models"
 	"strings"
-
 	"errors"
-
 	"github.com/go-playground/validator/v10"
 	"strconv"
 )
