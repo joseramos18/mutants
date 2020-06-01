@@ -6,6 +6,6 @@ import (
 )
 
 type IMutantRepository interface {
-	SaveDna(models.DNA, context.Context)
-	GetStatistics(context.Context) models.Statistics
+	SaveDna(models.DNA, context.Context) error
+	GetStatistics(context.Context) (models.Statistics,error)
 }

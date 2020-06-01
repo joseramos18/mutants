@@ -1,25 +1,55 @@
 package helper
 import (
+	"fmt"
 	"mutants/models"
 	"strings"
+
+	"errors"
+
+	"github.com/go-playground/validator/v10"
+	"strconv"
 )
 
-func VerifyDNA(dna *models.DNA) bool{
+func VerifyDNA(dna *models.DNA) (bool, error){
 	var mapLetters [6][6]string
 	dnaMutantCounter := 0
-	return (verifyByRow(dna, &mapLetters, &dnaMutantCounter) ||
+	if err := constructMapLetter(dna, &mapLetters); err != nil {
+		return false, err
+	}
+	return (verifyRow(dna, &mapLetters, &dnaMutantCounter) ||
 	verifyByColumn(&mapLetters, &dnaMutantCounter) ||
-	verifyObliqueString(&mapLetters, &dnaMutantCounter))
+	verifyObliqueString(&mapLetters, &dnaMutantCounter)),nil
 		
 }
 
-func verifyByRow(dna *models.DNA, mapLetters *[6][6]string, dnaMutantCounter *int) bool {
+func constructMapLetter(dna *models.DNA, mapLetters *[6][6]string,) error{
+	validate := validator.New()
 	for i, rowletters := range dna.Letters {
-		rowString := strings.Split(rowletters, "")
-		for j, letter := range rowString {
+		var rowString models.RowLetters
+		rowletters = strings.Replace(rowletters," ", "",50)
+		rowString.Letters = strings.Split(rowletters, "")
+		if err:= validate.Struct(rowString); err != nil {
+			for _, err := range err.(validator.ValidationErrors) {
+				errorTag := err.Tag()
+				fmt.Println(i)
+				if errorTag == "eq=A|eq=T|eq=G|eq=C"{
+					return errors.New("Solo se permiten las letras A. T, G, C. Error encontrado en el grupo: " + strconv.Itoa(i+1))
+				} else {
+					return errors.New("La longitud de Dna es incorrecto")
+				}	
+			}
+		} 
+		for j, letter := range rowString.Letters {
 			mapLetters[i][j] = strings.ToUpper(letter)
 		}
-		if verifyElement(rowString, dnaMutantCounter) {
+	}
+	return nil
+}
+
+func verifyRow(dna *models.DNA, mapLetters *[6][6]string, dnaMutantCounter *int) bool {
+	for _,rowletters := range dna.Letters {
+		rowString := strings.Split(rowletters, "")
+		if verifyElement(rowString,dnaMutantCounter){
 			return true
 		}
 	}

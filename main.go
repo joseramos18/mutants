@@ -2,9 +2,9 @@ package main
 import (
 	"fmt"
 	"mutants/controller"
-	"mutants/infrastructures"
 	"os"
 	"github.com/gin-gonic/gin"
+	"mutants/infrastructures"
 )
 func main() {
 	port := os.Getenv("PORT")

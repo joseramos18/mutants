@@ -5,6 +5,6 @@ import (
 )
 
 type IMutantService interface {
-	IsMutant(*gin.Context) bool
-	GetStatistics(*gin.Context) models.Statistics
+	IsMutant(*gin.Context) (bool,error)
+	GetStatistics(*gin.Context) (models.Statistics, error)
 } 
