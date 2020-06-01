@@ -25,7 +25,7 @@ func (service *MutantService) IsMutant(ctx *gin.Context) (bool,error) {
 	var dna models.DNA
 	ctx.BindJSON(&dna)
 	if err = validate.Struct(dna); err != nil{
-		return false, errors.New("La longitud de Dna es incorrecto")
+		return false, errors.New("La longitud de Dna es incorrecto. Solo se permiten 6 grupos de letras")
 	}
 	dna.IsMutant, err = helper.VerifyDNA(&dna)
 	if err != nil {

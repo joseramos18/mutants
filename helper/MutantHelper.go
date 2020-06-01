@@ -35,7 +35,7 @@ func constructMapLetter(dna *models.DNA, mapLetters *[6][6]string,) error{
 				if errorTag == "eq=A|eq=T|eq=G|eq=C"{
 					return errors.New("Solo se permiten las letras A. T, G, C. Error encontrado en el grupo: " + strconv.Itoa(i+1))
 				} else {
-					return errors.New("La longitud de Dna es incorrecto")
+					return errors.New("La longitud de Dna es incorrecto en el grupo: "+ strconv.Itoa(i+1))
 				}	
 			}
 		} 
